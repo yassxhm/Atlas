@@ -1,0 +1,1518 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover" />
+  <title>ATLAS — Sportswear Premium</title>
+  <meta name="description" content="ATLAS — sportswear premium. Discipline, performance et style." />
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --bg2:#f6f7f9;
+      --card:#ffffff;
+      --text:#111111;
+      --muted:#6b7280;
+      --line: rgba(17,17,17,.12);
+      --shadow: 0 18px 60px rgba(0,0,0,.10);
+      --shadow2: 0 14px 40px rgba(0,0,0,.10);
+      --radius: 18px;
+      --radius2: 14px;
+      --max: 1220px;
+
+      --gold:#caa54c;
+      --gold2:#e7cf7a;
+
+      --headerH: 70px;
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background: linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    a{ color:inherit; text-decoration:none }
+    img{ display:block; max-width:100% }
+    button,input,textarea{ font:inherit }
+    .container{ max-width:var(--max); margin:0 auto; padding:0 18px }
+    .sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    /* ===== HEADER (Nike-like) ===== */
+    .topbar{
+      height: var(--headerH);
+      position: sticky;
+      top:0;
+      z-index: 60;
+      background: rgba(255,255,255,.90);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    /* Brand (logo only) */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .brand-logo-only{
+      gap:0;
+      letter-spacing:0;
+      text-transform:none;
+    }
+    .brand-logo-only img{
+      width: 44px;     /* ✅ change la taille ici */
+      height: 44px;    /* ✅ change la taille ici */
+      display:block;
+      object-fit:contain;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      font-size:14px;
+      color: #111;
+    }
+    .nav a{
+      position:relative;
+      padding:10px 6px;
+      opacity:.92;
+    }
+    .nav a:hover{ opacity:1 }
+    .nav a.active::after{
+      content:"";
+      position:absolute;
+      left:6px; right:6px; bottom:6px;
+      height:2px;
+      background: #111;
+      border-radius: 2px;
+    }
+
+    .right{
+      display:flex; align-items:center; gap:10px;
+    }
+
+    .iconbtn{
+      width:40px; height:40px;
+      border-radius: 999px;
+      border:1px solid transparent;
+      background: transparent;
+      cursor:pointer;
+      display:grid; place-items:center;
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .iconbtn:hover{
+      background: rgba(17,17,17,.06);
+      border-color: rgba(17,17,17,.10);
+    }
+    .badge{
+      position:absolute;
+      top:7px; right:7px;
+      min-width:18px; height:18px;
+      padding:0 5px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      font-size:11px;
+      display:grid; place-items:center;
+      line-height:1;
+    }
+    .cartWrap{ position:relative }
+
+    /* Search (header) */
+    .search{
+      display:flex; align-items:center; gap:10px;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:8px 12px;
+      min-width: 280px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .search input{
+      border:none;
+      outline:none;
+      width:100%;
+      font-size:14px;
+      background:transparent;
+    }
+
+    /* Language switch */
+    .lang{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      display:flex; gap:8px; align-items:center;
+      cursor:pointer;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .lang .pill{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(17,17,17,.14);
+      background: rgba(17,17,17,.04);
+      font-weight:800;
+    }
+
+    .burger{ display:none; }
+
+    /* ===== LAYOUT VIEWS (Home / Shop) ===== */
+    .view{ display:none; }
+    .view.active{ display:block; }
+
+    /* ===== HERO (Nike-ish) ===== */
+    .hero{
+      padding: 34px 0 8px;
+    }
+    .heroCard{
+      border-radius: 24px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      box-shadow: var(--shadow);
+      background:
+        radial-gradient(900px 420px at 15% 0%, rgba(202,165,76,.18), transparent 60%),
+        linear-gradient(180deg, #ffffff, #f7f7fb);
+      position:relative;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:14px;
+      padding: 22px;
+      align-items:stretch;
+    }
+    .heroLeft{
+      padding: 10px 8px 16px;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.75);
+      color: var(--muted);
+      font-size:13px;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 7px rgba(202,165,76,.16);
+    }
+
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4.6vw, 58px);
+      line-height:1.02;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+    }
+    .goldText{
+      background: linear-gradient(90deg, var(--gold2), var(--gold));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height:1.65;
+      max-width: 66ch;
+    }
+    .heroActions{
+      margin-top: 14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid rgba(17,17,17,.14);
+      background:#fff;
+      color:#111;
+      border-radius:999px;
+      padding:10px 14px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      box-shadow: 0 12px 26px rgba(0,0,0,.06);
+      display:inline-flex; align-items:center; gap:10px;
+      font-weight:800;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 18px 38px rgba(0,0,0,.10) }
+    .btn.primary{
+      border-color:#111;
+      background:#111;
+      color:#fff;
+      box-shadow: 0 16px 44px rgba(0,0,0,.14);
+    }
+    .btn.soft{
+      background: rgba(17,17,17,.04);
+    }
+
+    .heroRight{
+      display:grid;
+      grid-template-rows: 1fr 1fr;
+      gap:12px;
+    }
+    .tile{
+      border-radius: 20px;
+      overflow:hidden;
+      border:1px solid rgba(17,17,17,.12);
+      background:#fff;
+      box-shadow: var(--shadow2);
+      position:relative;
+      min-height: 168px;
+      cursor:pointer;
+    }
+    .tile img{
+      width:100%; height:100%;
+      object-fit:cover;
+      filter: contrast(1.03) saturate(1.02);
+      transform: scale(1.02);
+    }
+    .tile::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,0) 60%);
+      pointer-events:none;
+    }
+    .tileText{
+      position:absolute; left:16px; bottom:14px;
+      color:#fff;
+      z-index:1;
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .tileText b{
+      text-transform: uppercase;
+      letter-spacing:.12em;
+      font-size:12px;
+      opacity:.92;
+    }
+    .tileText span{
+      font-weight: 900;
+      letter-spacing:-.01em;
+      font-size:18px;
+    }
+
+    /* ===== HOME SECTIONS ===== */
+    .section{ padding: 22px 0; }
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+      margin-bottom: 12px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.14em;
+      text-transform: uppercase;
+    }
+    .sectionHead p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.55;
+      max-width: 76ch;
+    }
+
+    .cards3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .infoCard{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius: 20px;
+      padding:16px;
+      box-shadow: var(--shadow2);
+    }
+    .infoCard b{ display:block; letter-spacing:.06em; margin-bottom:6px }
+    .infoCard p{ margin:0; color:var(--muted); line-height:1.6; font-size:13px }
+
+    .ctaStrip{
+      margin-top: 12px;
+      border-radius: 24px;
+      border:1px solid var(--line);
+      background: linear-gradient(90deg, rgba(202,165,76,.14), rgba(255,255,255,.9), rgba(17,17,17,.04));
+      box-shadow: var(--shadow2);
+      padding: 16px;
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      flex-wrap:wrap;
+    }
+    .ctaStrip .leftText{
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .ctaStrip .leftText strong{
+      font-size:16px;
+      letter-spacing:-.01em;
+    }
+    .ctaStrip .leftText span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    /* ===== SHOP ===== */
+    .shopTop{
+      padding: 18px 0 10px;
+    }
+    .shopTitle{
+      display:flex; justify-content:space-between; align-items:flex-end; gap:14px;
+      flex-wrap:wrap;
+    }
+    .shopTitle h2{
+      margin:0;
+      font-size: 20px;
+      letter-spacing:.14em;
+      text-transform: uppercase;
+    }
+    .filters{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .select{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:10px 12px;
+      box-shadow: 0 12px 26px rgba(0,0,0,.06);
+      cursor:pointer;
+    }
+
+    .gridShop{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      padding: 10px 0 26px;
+    }
+    .product{
+      border:1px solid var(--line);
+      border-radius: 22px;
+      background:#fff;
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .product:hover{
+      transform: translateY(-3px);
+      border-color: rgba(17,17,17,.28);
+      box-shadow: 0 24px 70px rgba(0,0,0,.14);
+    }
+    .pImg{
+      height: 220px;
+      background:#f1f5f9;
+      cursor: zoom-in;
+      position:relative;
+    }
+    .pImg img{ width:100%; height:100%; object-fit:cover }
+    .pTag{
+      position:absolute; left:12px; top:12px;
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.88);
+      border:1px solid rgba(17,17,17,.12);
+      font-weight:900;
+    }
+    .pBody{ padding:14px; }
+    .pTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px }
+    .pTop h3{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.02em;
+    }
+    .price{
+      font-weight: 900;
+      font-size: 13px;
+      color: #111;
+      white-space:nowrap;
+    }
+    .pBody p{
+      margin:8px 0 0;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+    .pActions{
+      margin-top: 12px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .btnSmall{
+      border:1px solid rgba(17,17,17,.14);
+      background:#fff;
+      border-radius:999px;
+      padding:9px 12px;
+      cursor:pointer;
+      font-weight:900;
+      box-shadow: 0 10px 22px rgba(0,0,0,.06);
+    }
+    .btnSmall.primary{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+
+    /* ===== DRAWERS (menu / cart) ===== */
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.38);
+      display:none;
+      z-index: 80;
+    }
+    .overlay.show{ display:block; }
+
+    .drawer{
+      position:fixed;
+      top:0; right:0;
+      height:100%;
+      width:min(420px, 92vw);
+      background:#fff;
+      border-left:1px solid rgba(17,17,17,.14);
+      box-shadow: -18px 0 60px rgba(0,0,0,.18);
+      transform: translateX(110%);
+      transition: transform .22s ease;
+      z-index: 90;
+      display:flex;
+      flex-direction:column;
+    }
+    .drawer.show{ transform: translateX(0); }
+    .drawerHead{
+      height: var(--headerH);
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 0 16px;
+      border-bottom:1px solid rgba(17,17,17,.12);
+    }
+    .drawerHead b{ letter-spacing:.12em; text-transform: uppercase; }
+    .drawerClose{
+      width:42px; height:42px;
+      border-radius:999px;
+      border:1px solid rgba(17,17,17,.12);
+      background:#fff;
+      cursor:pointer;
+      display:grid; place-items:center;
+    }
+    .drawerBody{
+      padding: 14px 16px;
+      overflow:auto;
+      flex:1;
+    }
+
+    /* Menu drawer (left like Nike screenshot) */
+    .menuDrawer{
+      right:auto; left:0;
+      border-left:none;
+      border-right:1px solid rgba(17,17,17,.14);
+      transform: translateX(-110%);
+    }
+    .menuDrawer.show{ transform: translateX(0); }
+    .menuList{ display:grid; gap:6px; padding-top:6px; }
+    .menuItem{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(17,17,17,.10);
+      background:#fff;
+      cursor:pointer;
+      font-weight:900;
+    }
+    .menuItem span{ color:var(--muted); font-weight:800 }
+    .menuFooter{
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top:1px solid rgba(17,17,17,.10);
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+    .menuBtns{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
+    .menuBtns .btnSmall{ padding:10px 12px; }
+    .menuLinks{
+      margin-top: 12px;
+      display:grid;
+      gap:10px;
+    }
+    .menuLinks a{
+      display:flex; gap:10px; align-items:center;
+      color:#111;
+      padding:10px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(17,17,17,.08);
+      background: rgba(17,17,17,.03);
+      font-weight:900;
+    }
+
+    /* Cart drawer */
+    .cartItems{ display:grid; gap:12px; }
+    .cartEmpty{
+      border:1px dashed rgba(17,17,17,.22);
+      border-radius: 18px;
+      padding:16px;
+      color:var(--muted);
+      line-height:1.6;
+      background: rgba(17,17,17,.02);
+    }
+    .cartRow{
+      display:grid;
+      grid-template-columns: 92px 1fr;
+      gap:12px;
+      border:1px solid rgba(17,17,17,.10);
+      border-radius: 18px;
+      overflow:hidden;
+      background:#fff;
+      box-shadow: 0 10px 22px rgba(0,0,0,.06);
+    }
+    .cartRow .cImg{
+      height:92px;
+      background:#f1f5f9;
+    }
+    .cartRow .cImg img{ width:100%; height:100%; object-fit:cover }
+    .cartRow .cBody{
+      padding:10px 10px 12px;
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .cTitle{ font-weight:900; font-size:13px; line-height:1.25 }
+    .cMeta{ color:var(--muted); font-size:12px }
+    .cControls{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-top: 4px;
+    }
+    .qty{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(17,17,17,.12);
+      border-radius: 999px;
+      padding:6px 10px;
+      background:#fff;
+    }
+    .qty button{
+      width:28px; height:28px;
+      border-radius:999px;
+      border:1px solid rgba(17,17,17,.12);
+      background:#fff;
+      cursor:pointer;
+      font-weight:900;
+    }
+    .remove{
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      color:#111;
+      opacity:.7;
+      font-weight:900;
+      text-decoration: underline;
+    }
+    .remove:hover{ opacity:1 }
+
+    .cartFooter{
+      border-top:1px solid rgba(17,17,17,.12);
+      padding: 14px 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      background: rgba(17,17,17,.02);
+    }
+    .totals{
+      display:flex; justify-content:space-between; align-items:center;
+      font-weight:900;
+    }
+    .checkoutRow{ display:flex; gap:10px; flex-wrap:wrap }
+    .checkoutRow .btn{ flex:1; justify-content:center; }
+
+    /* ===== LIGHTBOX (click image) ===== */
+    .lightbox{
+      position:fixed; inset:0; z-index: 120;
+      display:none;
+      background: rgba(0,0,0,.72);
+      align-items:center; justify-content:center;
+      padding: 16px;
+    }
+    .lightbox.show{ display:flex; }
+    .lbCard{
+      width: min(980px, 96vw);
+      background:#fff;
+      border-radius: 22px;
+      overflow:hidden;
+      box-shadow: 0 30px 90px rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.25);
+    }
+    .lbHead{
+      padding: 12px 14px;
+      display:flex; justify-content:space-between; align-items:center;
+      border-bottom: 1px solid rgba(17,17,17,.10);
+    }
+    .lbHead b{ letter-spacing:.08em; text-transform: uppercase }
+    .lbImg{
+      width:100%;
+      max-height: 76vh;
+      object-fit: contain;
+      background:#f1f5f9;
+    }
+    .lbCap{
+      padding: 12px 14px 16px;
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.5;
+    }
+
+    /* ===== FOOTER ===== */
+    footer{
+      border-top: 1px solid var(--line);
+      background:#fff;
+      padding: 18px 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footInner{
+      display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .footLinks{ display:flex; gap:12px; flex-wrap:wrap; }
+    .footLinks a:hover{ color:#111 }
+
+    /* ===== RESPONSIVE (MOBILE) ===== */
+    @media (max-width: 980px){
+      .nav{ display:none; }
+      .search{ display:none; }
+      .burger{ display:grid; }
+      .heroGrid{ grid-template-columns: 1fr; }
+      .heroRight{ grid-template-rows: auto; grid-template-columns: 1fr; }
+      .cards3{ grid-template-columns: 1fr; }
+      .gridShop{ grid-template-columns: 1fr; }
+      .pImg{ height: 240px; }
+    }
+
+    /* subtle reveal */
+    .reveal{ opacity:0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease }
+    .reveal.show{ opacity:1; transform:none }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <!-- ✅ Logo isotipo seul (cliquable accueil) -->
+      <a class="brand brand-logo-only" href="#/" data-link="home" aria-label="Retour à l’accueil">
+        <img src="assets/isotipo.png" alt="ATLAS">
+        <span class="sr">Accueil</span>
+      </a>
+
+      <nav class="nav" aria-label="Navigation">
+        <a href="#/" data-link="home" class="active" data-i18n="nav.home">Accueil</a>
+        <a href="#/boutique" data-link="shop" data-i18n="nav.shop">Boutique</a>
+        <a href="#/histoire" data-link="story" data-i18n="nav.story">Histoire</a>
+        <a href="#/contact" data-link="contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div class="search" role="search" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M10.5 3a7.5 7.5 0 105.2 12.9l3.4 3.4" stroke="rgba(17,17,17,.9)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input id="searchInput" placeholder="Rechercher (Boutique)..." />
+      </div>
+
+      <div class="right">
+        <button class="lang" id="langBtn" title="Changer de langue">
+          <span class="pill" id="langLabel">FR</span>
+          <span style="font-size:12px; color:var(--muted)" id="langHint">ES</span>
+        </button>
+
+        <button class="iconbtn" id="accountBtn" title="Compte" aria-label="Compte">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M20 21a8 8 0 10-16 0" stroke="rgba(17,17,17,.9)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="rgba(17,17,17,.9)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <div class="cartWrap">
+          <button class="iconbtn" id="cartBtn" title="Panier" aria-label="Panier">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M6 7h15l-1.5 10.5a2 2 0 01-2 1.5H9a2 2 0 01-2-1.5L5 4H2" stroke="rgba(17,17,17,.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <span class="badge" id="cartCount" style="display:none">0</span>
+        </div>
+
+        <button class="iconbtn burger" id="menuBtn" title="Menu" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="rgba(17,17,17,.92)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOME VIEW -->
+  <main class="view active" id="viewHome" aria-label="Accueil">
+    <section class="hero">
+      <div class="container">
+        <div class="heroCard reveal">
+          <div class="heroGrid">
+            <div class="heroLeft">
+              <span class="kicker"><span class="dot"></span><span data-i18n="hero.kicker">Sportswear premium — discipline & performance</span></span>
+
+              <h1>
+                <span data-i18n="hero.title1">PORTE</span>
+                <span class="goldText">ATLAS</span><br/>
+                <span data-i18n="hero.title2">AVANCE AVEC</span>
+                <span data-i18n="hero.title3">DISCIPLINE</span>
+              </h1>
+
+              <p class="sub" data-i18n="hero.sub">
+                Une identité clean, des silhouettes sport, et un design premium pensé pour la salle et la rue.
+              </p>
+
+              <div class="heroActions">
+                <a class="btn primary" href="#/boutique" data-link="shop" data-i18n="hero.ctaShop">Voir la boutique</a>
+                <button class="btn soft" id="openStory" data-i18n="hero.ctaStory">Découvrir ATLAS</button>
+              </div>
+            </div>
+
+            <div class="heroRight">
+              <div class="tile js-zoom" data-src="assets/conjunto-negro.png" data-cap="Ensemble noir ATLAS">
+                <img src="assets/conjunto-negro.png" alt="Ensemble noir ATLAS">
+                <div class="tileText">
+                  <b data-i18n="hero.tile1k">Drop</b>
+                  <span data-i18n="hero.tile1t">Ensemble Noir</span>
+                </div>
+              </div>
+
+              <div class="tile js-zoom" data-src="assets/5-camisetas.png" data-cap="Pack de t-shirts ATLAS">
+                <img src="assets/5-camisetas.png" alt="Pack t-shirts ATLAS">
+                <div class="tileText">
+                  <b data-i18n="hero.tile2k">Essentiels</b>
+                  <span data-i18n="hero.tile2t">T-shirts Premium</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionHead">
+            <h2 data-i18n="home.s1t">POURQUOI ATLAS</h2>
+            <p data-i18n="home.s1d">Un site clair et pro, inspiré des meilleurs standards e-commerce. Boutique séparée + panier fonctionnel.</p>
+          </div>
+
+          <div class="cards3">
+            <div class="infoCard reveal">
+              <b data-i18n="home.c1t">Design clean</b>
+              <p data-i18n="home.c1d">Beaucoup d’espace, typographie forte, composants simples et premium.</p>
+            </div>
+            <div class="infoCard reveal">
+              <b data-i18n="home.c2t">Mobile first</b>
+              <p data-i18n="home.c2d">Tout s’affiche correctement sur téléphone : menu latéral + grilles en 1 colonne.</p>
+            </div>
+            <div class="infoCard reveal">
+              <b data-i18n="home.c3t">Panier réel</b>
+              <p data-i18n="home.c3d">Ajout, quantités, suppression, total et sauvegarde (localStorage).</p>
+            </div>
+          </div>
+
+          <div class="ctaStrip reveal">
+            <div class="leftText">
+              <strong data-i18n="home.stripT">Prêt à voir la collection ?</strong>
+              <span data-i18n="home.stripD">Les produits sont dans la Boutique. Clique et explore.</span>
+            </div>
+            <a class="btn primary" href="#/boutique" data-link="shop" data-i18n="home.stripBtn">Accéder à la Boutique</a>
+          </div>
+        </div>
+
+        <div class="section" id="homeContact">
+          <div class="sectionHead">
+            <h2 data-i18n="home.contactT">CONTACT</h2>
+            <p data-i18n="home.contactD">Écris-nous, on répond rapidement.</p>
+          </div>
+
+          <div class="infoCard reveal">
+            <!-- ✅ Formspree connecté -->
+            <form id="contactForm" action="https://formspree.io/f/xojqqrqnet" method="POST" style="display:grid; gap:10px; max-width:720px">
+              <input type="hidden" name="_subject" value="Nouveau message — ATLAS" />
+              <div style="display:grid; gap:10px; grid-template-columns: 1fr 1fr">
+                <input required name="name" placeholder="Nom" data-i18n-ph="ph.name" style="padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff">
+                <input required type="email" name="email" placeholder="Email" data-i18n-ph="ph.email" style="padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff">
+              </div>
+              <textarea required name="message" placeholder="Ton message..." data-i18n-ph="ph.msg" style="padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff;min-height:120px;resize:vertical"></textarea>
+              <div style="display:flex; gap:10px; flex-wrap:wrap">
+                <button class="btn primary" type="submit" data-i18n="contact.send">Envoyer</button>
+                <button class="btn soft" type="button" id="copyBio" data-i18n="contact.copyBio">Copier bio</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- SHOP VIEW -->
+  <main class="view" id="viewShop" aria-label="Boutique">
+    <section class="shopTop">
+      <div class="container">
+        <div class="shopTitle">
+          <h2 data-i18n="shop.title">BOUTIQUE</h2>
+          <div class="filters">
+            <button class="select" id="filterAll" data-i18n="shop.all">Tous</button>
+            <button class="select" id="filterTees" data-i18n="shop.tees">T-shirts</button>
+            <button class="select" id="filterHoodies" data-i18n="shop.hoodies">Hoodies</button>
+            <button class="select" id="filterSets" data-i18n="shop.sets">Ensembles</button>
+          </div>
+        </div>
+
+        <div class="gridShop" id="shopGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footInner">
+      <div>© <span id="year"></span> ATLAS</div>
+      <div class="footLinks">
+        <a href="#/" data-link="home" data-i18n="nav.home">Accueil</a>
+        <a href="#/boutique" data-link="shop" data-i18n="nav.shop">Boutique</a>
+        <a href="#/contact" data-link="contact" data-i18n="nav.contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- MENU DRAWER (mobile) -->
+  <aside class="drawer menuDrawer" id="menuDrawer" aria-label="Menu">
+    <div class="drawerHead">
+      <b>ATLAS</b>
+      <button class="drawerClose" id="menuClose" aria-label="Fermer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6L6 18" stroke="rgba(17,17,17,.9)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="drawerBody">
+      <div class="menuList">
+        <div class="menuItem" data-nav="#/" data-i18n="menu.new">Nouveau <span>›</span></div>
+        <div class="menuItem" data-nav="#/boutique" data-i18n="menu.men">Homme <span>›</span></div>
+        <div class="menuItem" data-nav="#/boutique" data-i18n="menu.women">Femme <span>›</span></div>
+        <div class="menuItem" data-nav="#/boutique" data-i18n="menu.kids">Enfant <span>›</span></div>
+        <div class="menuItem" data-nav="#/boutique" data-i18n="menu.sport">Sports <span>›</span></div>
+      </div>
+
+      <div class="menuFooter" data-i18n="menu.footer">
+        Deviens membre ATLAS pour accéder au meilleur des produits et découvrir du contenu inspirant.
+      </div>
+
+      <div class="menuBtns">
+        <button class="btnSmall primary" id="joinBtn" data-i18n="menu.join">Rejoins-nous</button>
+        <button class="btnSmall" id="signinBtn" data-i18n="menu.signin">S’identifier</button>
+      </div>
+
+      <div class="menuLinks">
+        <a href="javascript:void(0)" id="helpBtn"><span>?</span> <span data-i18n="menu.help">Aide</span></a>
+        <a href="javascript:void(0)" id="ordersBtn"><span>📦</span> <span data-i18n="menu.orders">Commandes</span></a>
+        <a href="javascript:void(0)" id="storeBtn"><span>📍</span> <span data-i18n="menu.find">Trouver un magasin</span></a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CART DRAWER -->
+  <aside class="drawer" id="cartDrawer" aria-label="Panier">
+    <div class="drawerHead">
+      <b data-i18n="cart.title">Panier</b>
+      <button class="drawerClose" id="cartClose" aria-label="Fermer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6L6 18" stroke="rgba(17,17,17,.9)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="drawerBody">
+      <div id="cartItems" class="cartItems"></div>
+    </div>
+
+    <div class="cartFooter">
+      <div class="totals">
+        <span data-i18n="cart.total">Total</span>
+        <span id="cartTotal">0 €</span>
+      </div>
+      <div class="checkoutRow">
+        <button class="btn soft" id="clearCartBtn" data-i18n="cart.clear">Vider</button>
+        <button class="btn primary" id="checkoutBtn" data-i18n="cart.checkout">Commander</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lbCard" role="dialog" aria-modal="true">
+      <div class="lbHead">
+        <b id="lbTitle">ATLAS</b>
+        <button class="drawerClose" id="lbClose" aria-label="Fermer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6L6 18" stroke="rgba(17,17,17,.9)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <img class="lbImg" id="lbImg" alt="">
+      <div class="lbCap" id="lbCap"></div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Products (edit prices later if you want) =====
+    const PRODUCTS = [
+      {
+        id:"set-black",
+        name:{fr:"Ensemble Noir ATLAS", es:"Conjunto Negro ATLAS"},
+        desc:{fr:"Hoodie + pantalon assorti. Branding clean, look premium.", es:"Hoodie + pantalón a juego. Branding limpio, look premium."},
+        tag:{fr:"Ensemble", es:"Conjunto"},
+        category:"sets",
+        price: 79.00,
+        img:"assets/conjunto-negro.png"
+      },
+      {
+        id:"tees-5pack",
+        name:{fr:"Pack 5 T-shirts", es:"Pack 5 Camisetas"},
+        desc:{fr:"Couleurs premium. Même silhouette et logo ATLAS.", es:"Colores premium. Misma silueta y logo ATLAS."},
+        tag:{fr:"T-shirts", es:"Camisetas"},
+        category:"tees",
+        price: 99.00,
+        img:"assets/5-camisetas.png"
+      },
+      {
+        id:"tees-3lot",
+        name:{fr:"T-shirts — Lot 3", es:"Camisetas — Lote 3"},
+        desc:{fr:"Parfait pour un visuel réseaux : 3 couleurs, 1 identité.", es:"Perfecto para redes: 3 colores, 1 identidad."},
+        tag:{fr:"Trio", es:"Trío"},
+        category:"tees",
+        price: 69.00,
+        img:"assets/camisetas-lote-3.png"
+      },
+      {
+        id:"hoodie-beige",
+        name:{fr:"Hoodie Beige ATLAS", es:"Hoodie Beige ATLAS"},
+        desc:{fr:"Esthétique minimal premium. Facile à porter.", es:"Minimal premium. Fácil de llevar."},
+        tag:{fr:"Hoodie", es:"Hoodie"},
+        category:"hoodies",
+        price: 65.00,
+        img:"assets/pull-beige-atlas.png"
+      },
+      {
+        id:"hoodie-quote",
+        name:{fr:"Hoodie Noir — “Discipline…”", es:"Hoodie Negro — “Discipline…”"},
+        desc:{fr:"Face clean + dos avec message. Pièce statement.", es:"Frente clean + espalda con mensaje. Pieza statement."},
+        tag:{fr:"Statement", es:"Statement"},
+        category:"hoodies",
+        price: 69.00,
+        img:"assets/pull-frase-negro.png"
+      }
+    ];
+
+    // ===== i18n =====
+    const I18N = {
+      fr: {
+        "nav.home":"Accueil","nav.shop":"Boutique","nav.story":"Histoire","nav.contact":"Contact",
+        "hero.kicker":"Sportswear premium — discipline & performance",
+        "hero.title1":"PORTE","hero.title2":"AVANCE AVEC","hero.title3":"DISCIPLINE",
+        "hero.sub":"Une identité clean, des silhouettes sport, et un design premium pensé pour la salle et la rue.",
+        "hero.ctaShop":"Voir la boutique","hero.ctaStory":"Découvrir ATLAS",
+        "hero.tile1k":"Drop","hero.tile1t":"Ensemble Noir",
+        "hero.tile2k":"Essentiels","hero.tile2t":"T-shirts Premium",
+        "home.s1t":"POURQUOI ATLAS",
+        "home.s1d":"Un site clair et pro, inspiré des meilleurs standards e-commerce. Boutique séparée + panier fonctionnel.",
+        "home.c1t":"Design clean","home.c1d":"Beaucoup d’espace, typographie forte, composants simples et premium.",
+        "home.c2t":"Mobile first","home.c2d":"Tout s’affiche correctement sur téléphone : menu latéral + grilles en 1 colonne.",
+        "home.c3t":"Panier réel","home.c3d":"Ajout, quantités, suppression, total et sauvegarde (localStorage).",
+        "home.stripT":"Prêt à voir la collection ?",
+        "home.stripD":"Les produits sont dans la Boutique. Clique et explore.",
+        "home.stripBtn":"Accéder à la Boutique",
+        "home.contactT":"CONTACT","home.contactD":"Écris-nous, on répond rapidement.",
+        "contact.send":"Envoyer","contact.copyBio":"Copier bio",
+        "ph.name":"Nom","ph.email":"Email","ph.msg":"Ton message…",
+        "shop.title":"BOUTIQUE","shop.all":"Tous","shop.tees":"T-shirts","shop.hoodies":"Hoodies","shop.sets":"Ensembles",
+        "menu.new":"Nouveau","menu.men":"Homme","menu.women":"Femme","menu.kids":"Enfant","menu.sport":"Sports",
+        "menu.footer":"Deviens membre ATLAS pour accéder au meilleur des produits et découvrir du contenu inspirant.",
+        "menu.join":"Rejoins-nous","menu.signin":"S’identifier",
+        "menu.help":"Aide","menu.orders":"Commandes","menu.find":"Trouver un magasin",
+        "cart.title":"Panier","cart.total":"Total","cart.clear":"Vider","cart.checkout":"Commander",
+        "toast.added":"Ajouté au panier ✅",
+        "toast.sent":"Message envoyé ✅"
+      },
+      es: {
+        "nav.home":"Inicio","nav.shop":"Tienda","nav.story":"Historia","nav.contact":"Contacto",
+        "hero.kicker":"Sportswear premium — disciplina & rendimiento",
+        "hero.title1":"VISTE","hero.title2":"AVANZA CON","hero.title3":"DISCIPLINA",
+        "hero.sub":"Identidad limpia, siluetas deportivas y diseño premium para gym y calle.",
+        "hero.ctaShop":"Ver tienda","hero.ctaStory":"Descubrir ATLAS",
+        "hero.tile1k":"Drop","hero.tile1t":"Conjunto Negro",
+        "hero.tile2k":"Esenciales","hero.tile2t":"Camisetas Premium",
+        "home.s1t":"POR QUÉ ATLAS",
+        "home.s1d":"Web clara y pro. Tienda separada + carrito funcional.",
+        "home.c1t":"Diseño clean","home.c1d":"Espacio, tipografía fuerte, componentes premium.",
+        "home.c2t":"Mobile first","home.c2d":"Todo se ve bien en móvil: menú lateral + grids en 1 columna.",
+        "home.c3t":"Carrito real","home.c3d":"Añadir, cantidades, borrar, total y guardado.",
+        "home.stripT":"¿Listo para ver la colección?",
+        "home.stripD":"Los productos están en la Tienda. Entra y explora.",
+        "home.stripBtn":"Ir a la Tienda",
+        "home.contactT":"CONTACTO","home.contactD":"Escríbenos, respondemos rápido.",
+        "contact.send":"Enviar","contact.copyBio":"Copiar bio",
+        "ph.name":"Nombre","ph.email":"Email","ph.msg":"Tu mensaje…",
+        "shop.title":"TIENDA","shop.all":"Todos","shop.tees":"Camisetas","shop.hoodies":"Hoodies","shop.sets":"Conjuntos",
+        "menu.new":"Nuevo","menu.men":"Hombre","menu.women":"Mujer","menu.kids":"Niño","menu.sport":"Deportes",
+        "menu.footer":"Hazte miembro ATLAS para acceder a lo mejor y descubrir contenido inspirador.",
+        "menu.join":"Únete","menu.signin":"Iniciar sesión",
+        "menu.help":"Ayuda","menu.orders":"Pedidos","menu.find":"Encontrar tienda",
+        "cart.title":"Carrito","cart.total":"Total","cart.clear":"Vaciar","cart.checkout":"Comprar",
+        "toast.added":"Añadido al carrito ✅",
+        "toast.sent":"Mensaje enviado ✅"
+      }
+    };
+
+    let lang = "fr";
+    function t(key){ return I18N[lang]?.[key] ?? key; }
+
+    function applyI18n(){
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const k = el.getAttribute("data-i18n");
+        el.textContent = t(k);
+      });
+      document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+        const k = el.getAttribute("data-i18n-ph");
+        el.setAttribute("placeholder", t(k));
+      });
+      document.getElementById("langLabel").textContent = lang.toUpperCase();
+      document.getElementById("langHint").textContent = (lang==="fr") ? "ES" : "FR";
+      renderShop();
+      renderCart();
+      updateActiveNav();
+    }
+
+    // ===== Router (hash) =====
+    const viewHome = document.getElementById("viewHome");
+    const viewShop = document.getElementById("viewShop");
+
+    function showView(name){
+      viewHome.classList.remove("active");
+      viewShop.classList.remove("active");
+
+      if(name === "shop"){
+        viewShop.classList.add("active");
+        window.scrollTo({top:0, behavior:"instant"});
+      } else {
+        viewHome.classList.add("active");
+      }
+      updateActiveNav();
+    }
+
+    function route(){
+      const hash = location.hash || "#/";
+      if(hash.startsWith("#/boutique")) showView("shop");
+      else if(hash.startsWith("#/contact")) { showView("home"); document.getElementById("homeContact").scrollIntoView({behavior:"smooth"}); }
+      else if(hash.startsWith("#/histoire")) { showView("home"); openToast((lang==="fr") ? "Histoire : bientôt disponible." : "Historia: próximamente."); openStory(); }
+      else showView("home");
+    }
+
+    function updateActiveNav(){
+      const hash = location.hash || "#/";
+      document.querySelectorAll(".nav a").forEach(a=>a.classList.remove("active"));
+      if(hash.startsWith("#/boutique")) document.querySelector('.nav a[data-link="shop"]')?.classList.add("active");
+      else if(hash.startsWith("#/contact")) document.querySelector('.nav a[data-link="contact"]')?.classList.add("active");
+      else if(hash.startsWith("#/histoire")) document.querySelector('.nav a[data-link="story"]')?.classList.add("active");
+      else document.querySelector('.nav a[data-link="home"]')?.classList.add("active");
+    }
+
+    window.addEventListener("hashchange", route);
+
+    // ===== Toast =====
+    function openToast(msg){
+      const el = document.createElement("div");
+      el.textContent = msg;
+      el.style.position="fixed";
+      el.style.left="50%";
+      el.style.bottom="18px";
+      el.style.transform="translateX(-50%)";
+      el.style.padding="10px 14px";
+      el.style.borderRadius="999px";
+      el.style.border="1px solid rgba(17,17,17,.12)";
+      el.style.background="rgba(255,255,255,.92)";
+      el.style.boxShadow="0 18px 50px rgba(0,0,0,.16)";
+      el.style.zIndex="200";
+      el.style.fontSize="13px";
+      document.body.appendChild(el);
+      setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .35s ease"; }, 1400);
+      setTimeout(()=> el.remove(), 1850);
+    }
+
+    // ===== Reveal =====
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(ent=>{ if(ent.isIntersecting) ent.target.classList.add("show"); });
+    }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+    // ===== Lightbox (images) =====
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbCap = document.getElementById("lbCap");
+    const lbClose = document.getElementById("lbClose");
+
+    function openLightbox(src, cap){
+      lbImg.src = src;
+      lbImg.alt = cap || "ATLAS";
+      lbCap.textContent = cap || "";
+      lightbox.classList.add("show");
+      lightbox.setAttribute("aria-hidden","false");
+      document.body.style.overflow="hidden";
+    }
+    function closeLightbox(){
+      lightbox.classList.remove("show");
+      lightbox.setAttribute("aria-hidden","true");
+      document.body.style.overflow="";
+      lbImg.src = "";
+    }
+    lbClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e)=>{ if(e.target === lightbox) closeLightbox(); });
+
+    document.querySelectorAll(".js-zoom").forEach(el=>{
+      el.addEventListener("click", ()=> openLightbox(el.dataset.src, el.dataset.cap));
+    });
+
+    // ===== Drawers (menu/cart) =====
+    const overlay = document.getElementById("overlay");
+    const menuDrawer = document.getElementById("menuDrawer");
+    const cartDrawer = document.getElementById("cartDrawer");
+
+    function openOverlay(){ overlay.classList.add("show"); }
+    function closeOverlay(){ overlay.classList.remove("show"); }
+    function closeAllDrawers(){
+      menuDrawer.classList.remove("show");
+      cartDrawer.classList.remove("show");
+      closeOverlay();
+      document.body.style.overflow="";
+    }
+
+    document.getElementById("menuBtn").addEventListener("click", ()=>{
+      menuDrawer.classList.add("show");
+      openOverlay();
+      document.body.style.overflow="hidden";
+    });
+    document.getElementById("menuClose").addEventListener("click", closeAllDrawers);
+
+    document.getElementById("cartBtn").addEventListener("click", ()=>{
+      cartDrawer.classList.add("show");
+      openOverlay();
+      document.body.style.overflow="hidden";
+      renderCart();
+    });
+    document.getElementById("cartClose").addEventListener("click", closeAllDrawers);
+
+    overlay.addEventListener("click", closeAllDrawers);
+    window.addEventListener("keydown", (e)=>{ if(e.key === "Escape") { closeAllDrawers(); closeLightbox(); } });
+
+    // Menu navigation
+    document.querySelectorAll(".menuItem").forEach(item=>{
+      item.addEventListener("click", ()=>{
+        const nav = item.getAttribute("data-nav");
+        if(nav) location.hash = nav;
+        closeAllDrawers();
+      });
+    });
+
+    // Buttons (soon)
+    const soon = () => openToast((lang==="fr") ? "Bientôt disponible." : "Próximamente.");
+    ["joinBtn","signinBtn","helpBtn","ordersBtn","storeBtn","accountBtn"].forEach(id=>{
+      document.getElementById(id)?.addEventListener("click", soon);
+    });
+
+    // ===== Shop render + search + filters =====
+    const shopGrid = document.getElementById("shopGrid");
+    let currentFilter = "all";
+    let searchQuery = "";
+
+    function formatPrice(v){
+      return v.toFixed(2).replace(".", ",") + " €";
+    }
+
+    function productMatches(p){
+      const inFilter = (currentFilter === "all") || (p.category === currentFilter);
+      const q = searchQuery.trim().toLowerCase();
+      const name = p.name[lang].toLowerCase();
+      const desc = p.desc[lang].toLowerCase();
+      return inFilter && (!q || name.includes(q) || desc.includes(q));
+    }
+
+    function renderShop(){
+      if(!shopGrid) return;
+      const list = PRODUCTS.filter(productMatches);
+
+      shopGrid.innerHTML = list.map(p=>`
+        <article class="product reveal">
+          <div class="pImg js-pzoom" data-src="${p.img}" data-cap="${escapeHtml(p.name[lang])}">
+            <span class="pTag">${escapeHtml(p.tag[lang])}</span>
+            <img src="${p.img}" alt="${escapeHtml(p.name[lang])}">
+          </div>
+          <div class="pBody">
+            <div class="pTop">
+              <h3>${escapeHtml(p.name[lang])}</h3>
+              <div class="price">${formatPrice(p.price)}</div>
+            </div>
+            <p>${escapeHtml(p.desc[lang])}</p>
+            <div class="pActions">
+              <button class="btnSmall primary" data-add="${p.id}">${lang==="fr"?"Ajouter":"Añadir"}</button>
+              <button class="btnSmall" data-details="${p.id}">${lang==="fr"?"Voir":"Ver"}</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      shopGrid.querySelectorAll(".js-pzoom").forEach(el=>{
+        el.addEventListener("click", ()=> openLightbox(el.dataset.src, el.dataset.cap));
+      });
+
+      shopGrid.querySelectorAll("[data-add]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-add");
+          addToCart(id, 1);
+          openToast(t("toast.added"));
+          updateCartBadge();
+        });
+      });
+
+      shopGrid.querySelectorAll("[data-details]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-details");
+          const p = PRODUCTS.find(x=>x.id===id);
+          if(!p) return;
+          openLightbox(p.img, `${p.name[lang]} — ${formatPrice(p.price)}`);
+        });
+      });
+
+      shopGrid.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+    }
+
+    function escapeHtml(s){
+      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e)=>{
+      searchQuery = e.target.value || "";
+      renderShop();
+      if(!(location.hash||"#/").startsWith("#/boutique")) location.hash = "#/boutique";
+    });
+
+    document.getElementById("filterAll").addEventListener("click", ()=>{ currentFilter="all"; renderShop(); location.hash="#/boutique"; });
+    document.getElementById("filterTees").addEventListener("click", ()=>{ currentFilter="tees"; renderShop(); location.hash="#/boutique"; });
+    document.getElementById("filterHoodies").addEventListener("click", ()=>{ currentFilter="hoodies"; renderShop(); location.hash="#/boutique"; });
+    document.getElementById("filterSets").addEventListener("click", ()=>{ currentFilter="sets"; renderShop(); location.hash="#/boutique"; });
+
+    // ===== Cart (functional) =====
+    const CART_KEY = "atlas_cart_v1";
+    function loadCart(){
+      try{ return JSON.parse(localStorage.getItem(CART_KEY) || "{}"); }
+      catch{ return {}; }
+    }
+    function saveCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+
+    function addToCart(productId, qty){
+      const cart = loadCart();
+      cart[productId] = (cart[productId] || 0) + qty;
+      if(cart[productId] <= 0) delete cart[productId];
+      saveCart(cart);
+    }
+    function setQty(productId, qty){
+      const cart = loadCart();
+      if(qty <= 0) delete cart[productId];
+      else cart[productId] = qty;
+      saveCart(cart);
+    }
+    function clearCart(){ localStorage.removeItem(CART_KEY); }
+
+    function cartCount(){
+      const cart = loadCart();
+      return Object.values(cart).reduce((a,b)=>a+b, 0);
+    }
+    function cartTotal(){
+      const cart = loadCart();
+      let total = 0;
+      for(const [id, qty] of Object.entries(cart)){
+        const p = PRODUCTS.find(x=>x.id===id);
+        if(p) total += p.price * qty;
+      }
+      return total;
+    }
+
+    const cartCountEl = document.getElementById("cartCount");
+    function updateCartBadge(){
+      const n = cartCount();
+      if(n > 0){
+        cartCountEl.style.display = "grid";
+        cartCountEl.textContent = String(n);
+      } else {
+        cartCountEl.style.display = "none";
+      }
+    }
+
+    const cartItemsEl = document.getElementById("cartItems");
+    const cartTotalEl = document.getElementById("cartTotal");
+
+    function renderCart(){
+      const cart = loadCart();
+      const entries = Object.entries(cart);
+
+      if(entries.length === 0){
+        cartItemsEl.innerHTML = `<div class="cartEmpty">${lang==="fr"
+          ? "Ton panier est vide. Va dans Boutique pour ajouter des produits."
+          : "Tu carrito está vacío. Ve a Tienda para añadir productos."
+        }</div>`;
+        cartTotalEl.textContent = formatPrice(0);
+        updateCartBadge();
+        return;
+      }
+
+      const rows = entries.map(([id, qty])=>{
+        const p = PRODUCTS.find(x=>x.id===id);
+        if(!p) return "";
+        return `
+          <div class="cartRow">
+            <div class="cImg js-cart-zoom" data-src="${p.img}" data-cap="${escapeHtml(p.name[lang])}">
+              <img src="${p.img}" alt="${escapeHtml(p.name[lang])}">
+            </div>
+            <div class="cBody">
+              <div class="cTitle">${escapeHtml(p.name[lang])}</div>
+              <div class="cMeta">${formatPrice(p.price)} · ${escapeHtml(p.tag[lang])}</div>
+              <div class="cControls">
+                <div class="qty">
+                  <button data-dec="${p.id}" aria-label="moins">−</button>
+                  <span style="min-width:18px; text-align:center; font-weight:900">${qty}</span>
+                  <button data-inc="${p.id}" aria-label="plus">+</button>
+                </div>
+                <button class="remove" data-rm="${p.id}">${lang==="fr"?"Retirer":"Quitar"}</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      cartItemsEl.innerHTML = rows;
+      cartTotalEl.textContent = formatPrice(cartTotal());
+      updateCartBadge();
+
+      cartItemsEl.querySelectorAll("[data-inc]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-inc");
+          addToCart(id, 1);
+          renderCart();
+        });
+      });
+      cartItemsEl.querySelectorAll("[data-dec]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-dec");
+          addToCart(id, -1);
+          renderCart();
+        });
+      });
+      cartItemsEl.querySelectorAll("[data-rm]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-rm");
+          setQty(id, 0);
+          renderCart();
+        });
+      });
+      cartItemsEl.querySelectorAll(".js-cart-zoom").forEach(el=>{
+        el.addEventListener("click", ()=> openLightbox(el.dataset.src, el.dataset.cap));
+      });
+    }
+
+    document.getElementById("clearCartBtn").addEventListener("click", ()=>{
+      clearCart();
+      renderCart();
+      updateCartBadge();
+    });
+    document.getElementById("checkoutBtn").addEventListener("click", ()=>{
+      openToast((lang==="fr") ? "Paiement : bientôt disponible." : "Pago: próximamente.");
+    });
+
+    // ===== Story popup =====
+    function openStory(){
+      const msg = (lang==="fr")
+        ? "ATLAS : discipline visuelle. Des pièces clean, premium, prêtes pour la salle et la rue."
+        : "ATLAS: disciplina visual. Piezas limpias, premium, para gym y calle.";
+      openToast(msg);
+    }
+    document.getElementById("openStory").addEventListener("click", openStory);
+
+    // ===== Contact (Formspree - real) =====
+    document.getElementById("contactForm").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+
+      try{
+        btn.disabled = true;
+        btn.textContent = (lang==="fr") ? "Envoi..." : "Enviando...";
+
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { "Accept": "application/json" }
+        });
+
+        if(res.ok){
+          openToast(t("toast.sent"));
+          form.reset();
+        }else{
+          openToast((lang==="fr") ? "Erreur d’envoi. Réessaie." : "Error al enviar. Intenta de nuevo.");
+        }
+      }catch{
+        openToast((lang==="fr") ? "Connexion impossible. Réessaie." : "Sin conexión. Intenta de nuevo.");
+      }finally{
+        btn.disabled = false;
+        btn.textContent = original;
+      }
+    });
+
+    // Copy bio
+    document.getElementById("copyBio").addEventListener("click", async ()=>{
+      const bio = (lang==="fr")
+        ? "ATLAS — sportswear premium. Minimalisme, discipline et performance. Design clean pour sport & street."
+        : "ATLAS — sportswear premium. Minimalismo, disciplina y rendimiento. Diseño clean para sport & street.";
+      try{
+        await navigator.clipboard.writeText(bio);
+        openToast((lang==="fr") ? "Copié ✅" : "Copiado ✅");
+      }catch{
+        openToast("OK");
+      }
+    });
+
+    // ===== Language toggle =====
+    document.getElementById("langBtn").addEventListener("click", ()=>{
+      lang = (lang==="fr") ? "es" : "fr";
+      applyI18n();
+    });
+
+    // ===== Init =====
+    document.getElementById("year").textContent = new Date().getFullYear();
+    updateCartBadge();
+    renderShop();
+    renderCart();
+    applyI18n();
+    route();
+  </script>
+</body>
+</html>
